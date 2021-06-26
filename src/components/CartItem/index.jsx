@@ -11,23 +11,28 @@ import {
 
 import useStyles from './styles';
 
-const CartItem = ({ item, handleUpdateCartQty, handleRemoveFromCart }) => {
+const CartItem = ({ item, onUpdateCartQty, onRemoveFromCart }) => {
 	const classes = useStyles();
 
+	const handleUpdateCartQty = (lineItemId, newQuantity) =>
+		onUpdateCartQty(lineItemId, newQuantity);
+
+	const handleRemoveFromCart = (lineItemId) => onRemoveFromCart(lineItemId);
+
 	return (
-		<Card>
+		<Card className='cart-item'>
 			<CardMedia
 				image={item.media.source}
 				alt={item.name}
 				className={classes.media}
 			/>
 			<CardContent className={classes.cardContent}>
-				<Typography variant='h4'>{item.name} </Typography>
+				<Typography variant='h4'>{item.name}</Typography>
 				<Typography variant='h5'>
 					{item.line_total.formatted_with_symbol}
 				</Typography>
 			</CardContent>
-			<CardActions className={classes.cartActions}>
+			<CardActions className={classes.cardActions}>
 				<div className={classes.buttons}>
 					<Button
 						type='button'
@@ -36,7 +41,7 @@ const CartItem = ({ item, handleUpdateCartQty, handleRemoveFromCart }) => {
 					>
 						-
 					</Button>
-					<Typography>{item.quantity}</Typography>
+					<Typography>&nbsp;{item.quantity}&nbsp;</Typography>
 					<Button
 						type='button'
 						size='small'

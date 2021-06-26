@@ -3,38 +3,36 @@ import { Link } from 'react-router-dom';
 
 import { Container, Typography, Button, Grid } from '@material-ui/core';
 
-import CartItem from '../CartItem';
-
 import useStyles from './styles';
 
-const Cart = ({
-	cart,
-	handleUpdateCartQty,
-	handleRemoveFromCart,
-	handleEmptyCart,
-}) => {
+import CartItem from '../CartItem';
+
+const Cart = ({ cart, onUpdateCartQty, onRemoveFromCart, onEmptyCart }) => {
 	const classes = useStyles();
 
-	const EmptyCart = () => (
+	const handleEmptyCart = () => onEmptyCart();
+
+	const renderEmptyCart = () => (
 		<Typography variant='subtitle1'>
 			You have no items in your shopping cart,
-			<Link to='/' className={classes.link}>
-				start adding some!
+			<Link className={classes.link} to='/'>
+				start adding some
 			</Link>
+			!
 		</Typography>
 	);
 
 	if (!cart.line_items) return 'Loading';
 
-	const FilledCart = () => (
+	const renderCart = () => (
 		<>
 			<Grid container spacing={3}>
-				{cart.line_items.map((item) => (
-					<Grid item xs={12} sm={4} key={item.id}>
+				{cart.line_items.map((lineItem) => (
+					<Grid item xs={12} sm={4} key={lineItem.id}>
 						<CartItem
-							item={item}
-							handleUpdateCartQty={handleUpdateCartQty}
-							handleRemoveFromCart={handleRemoveFromCart}
+							item={lineItem}
+							onUpdateCartQty={onUpdateCartQty}
+							onRemoveFromCart={onRemoveFromCart}
 						/>
 					</Grid>
 				))}
@@ -52,16 +50,16 @@ const Cart = ({
 						color='secondary'
 						onClick={handleEmptyCart}
 					>
-						Empty Cart
+						Empty cart
 					</Button>
 					<Button
 						className={classes.checkoutButton}
+						component={Link}
+						to='/checkout'
 						size='large'
 						type='button'
 						variant='contained'
 						color='primary'
-						component={Link}
-						to='/checkout'
 					>
 						Checkout
 					</Button>
@@ -76,7 +74,7 @@ const Cart = ({
 			<Typography className={classes.title} variant='h3' gutterBottom>
 				Your Shopping Cart
 			</Typography>
-			{!cart.line_items.length ? <EmptyCart /> : <FilledCart />}
+			{!cart.line_items.length ? renderEmptyCart() : renderCart()}
 		</Container>
 	);
 };

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
@@ -13,12 +14,11 @@ import {
 	Button,
 } from '@material-ui/core';
 
-import { commerce } from '../../lib/commerce';
-
-import AddressForm from '../CheckoutForms/AddressForm';
-import PaymentForm from '../CheckoutForms/PaymentForm';
-
 import useStyles from './styles';
+
+import AddressForm from '../AddressForm';
+import PaymentForm from '../PaymentForm';
+import { commerce } from '../../../lib/commerce';
 
 const steps = ['Shipping address', 'Payment details'];
 
@@ -49,7 +49,6 @@ const Checkout = ({ cart, onCaptureCheckout, order, error }) => {
 
 			generateToken();
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [cart]);
 
 	const test = (data) => {

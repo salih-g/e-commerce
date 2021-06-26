@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
+import { useForm, FormProvider } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
 import {
@@ -11,20 +12,19 @@ import {
 	Typography,
 } from '@material-ui/core';
 
-import { useForm, FormProvider } from 'react-hook-form';
-
 import { commerce } from '../../lib/commerce';
 
 import FormInput from './FormInput';
 
 const AddressForm = ({ checkoutToken, test }) => {
+	const methods = useForm();
+
 	const [shippingCountries, setShippingCountries] = useState([]);
 	const [shippingCountry, setShippingCountry] = useState('');
 	const [shippingSubdivisions, setShippingSubdivisions] = useState([]);
 	const [shippingSubdivision, setShippingSubdivision] = useState('');
 	const [shippingOptions, setShippingOptions] = useState([]);
 	const [shippingOption, setShippingOption] = useState('');
-	const methods = useForm();
 
 	const fetchShippingCountries = async (checkoutTokenId) => {
 		const { countries } = await commerce.services.localeListShippingCountries(
